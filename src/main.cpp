@@ -1,19 +1,14 @@
 #include <WiFi.h>
 #include <WebServer.h>
 #include "ContenidoHTML.h"
+#include "Motor.h"
 
-#define motor_derecha_a 12
-#define motor_derecha_b 14
-#define enable_derecha 13
-#define motor_izquierda_a 26
-#define motor_izquierda_b 27
-#define enable_izquierda 25
-#define motor_medio_a 32
-#define motor_medio_b 33
 
 // Reemplaza estos con el nombre de tu red WiFi y la contraseña
-const char* ssid     = "WiFi_FarmBot";
-const char* password = "12345678";
+const char *ssid = "WiFi_FarmBot";
+const char *password = "12345678";
+Motor *motor = new Motor();
+
 
 // Crear un servidor web en el puerto 80
 WebServer server(80);
@@ -27,61 +22,38 @@ void handleRoot() {
 
 // Función para manejar la ruta "/LED_ON"
 void avanzar() {
-    digitalWrite (motor_derecha_a, HIGH);
-    digitalWrite (motor_derecha_b, LOW);
-    digitalWrite (motor_izquierda_a, HIGH);
-    digitalWrite (motor_izquierda_b, LOW);
-    analogWrite(enable_derecha, 180);
-    analogWrite(enable_izquierda, 180);
+    motor->avanzar();
 }
+
 void retroceder() {
-    digitalWrite (motor_derecha_a, LOW);
-    digitalWrite (motor_derecha_b, HIGH);
-    digitalWrite (motor_izquierda_a, LOW);
-    digitalWrite (motor_izquierda_b, HIGH);
-    analogWrite(enable_derecha, 180);
-    analogWrite(enable_izquierda, 180);
+    motor->retroceder();
 }
+
 void girarALaDerecha() {
-    digitalWrite (motor_derecha_a, LOW);
-    digitalWrite (motor_derecha_b, HIGH);
-    digitalWrite (motor_izquierda_a, HIGH);
-    digitalWrite (motor_izquierda_b, LOW);
-    analogWrite(enable_derecha, 255);
-    analogWrite(enable_izquierda, 255);
+    motor->girarALaDerecha();
+
 }
+
 void girarALaIzquierda() {
-    digitalWrite (motor_derecha_a, HIGH);
-    digitalWrite (motor_derecha_b, LOW);
-    digitalWrite (motor_izquierda_a, LOW);
-    digitalWrite (motor_izquierda_b, HIGH);
-    analogWrite(enable_derecha, 255);
-    analogWrite(enable_izquierda, 255);
+    motor->girarALaIzquierda();
+
 }
-void girarUnTiempo(){
-    digitalWrite(motor_medio_a,HIGH);
-    digitalWrite(motor_medio_b,LOW);
+
+void girarUnTiempo() {
+    motor->girarUnTiempo();
 }
 
 //función para apagar el motor
-void parar(){
-    digitalWrite (motor_derecha_a, LOW);
-    digitalWrite (motor_derecha_b, LOW);
-    digitalWrite (motor_izquierda_a, LOW);
-    digitalWrite (motor_izquierda_b, LOW);
+void parar() {
+    motor->parar();
 }
 
 
 void setup() {
     // Inicializa el pin del LED como salida
-    pinMode(motor_derecha_a, OUTPUT);
-    pinMode(motor_derecha_b, OUTPUT);
-    pinMode(enable_derecha, OUTPUT);
-    pinMode(motor_izquierda_a, OUTPUT);
-    pinMode(motor_izquierda_b, OUTPUT);
-    pinMode(enable_izquierda, OUTPUT);
-    pinMode(motor_medio_a, OUTPUT);
-    pinMode(motor_medio_b, OUTPUT);
+
+    motor->inicializar();
+
     Serial.begin(115200);
 
     WiFi.softAP(ssid, password);
