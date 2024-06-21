@@ -2,12 +2,11 @@
 #include <WebServer.h>
 #include "ContenidoHTML.h"
 #include "Motor.h"
+#include "ConfiguracionWiFi.h"
 
 
-// Reemplaza estos con el nombre de tu red WiFi y la contraseña
-const char *ssid = "WiFi_FarmBot";
-const char *password = "12345678";
 Motor *motor = new Motor();
+ConfiguracionWiFi *configuracionWiFi = new ConfiguracionWiFi();
 
 
 // Crear un servidor web en el puerto 80
@@ -53,13 +52,7 @@ void setup() {
     // Inicializa el pin del LED como salida
 
     motor->inicializar();
-
-    Serial.begin(115200);
-
-    WiFi.softAP(ssid, password);
-    IPAddress IP = WiFi.softAPIP();
-    Serial.print("Dirección IP: ");
-    Serial.println(IP);
+    configuracionWiFi->inicializar();
 
     // Configura las rutas del servidor web
     server.on("/", handleRoot);

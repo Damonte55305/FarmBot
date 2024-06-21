@@ -2,9 +2,7 @@
 #include "ContenidoHTML.h"
 
 
-ContenidoHTML::ContenidoHTML(){
-
-}
+ContenidoHTML::ContenidoHTML()= default;
 
 String ContenidoHTML::obtenerContenido() {
     return html();
