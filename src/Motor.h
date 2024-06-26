@@ -10,7 +10,9 @@ public:
     Motor();
     void inicializar();
     void avanzar();
+    void avanzarAFull();
     void retroceder();
+    void retrocederAFull();
     void girarALaDerecha();
     void girarALaIzquierda();
     void girarUnTiempo();

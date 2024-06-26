@@ -24,8 +24,16 @@ void avanzar() {
     motor->avanzar();
 }
 
+void avanzarAFull() {
+    motor->avanzarAFull();
+}
+
 void retroceder() {
     motor->retroceder();
+}
+
+void retrocederAFull() {
+    motor->retrocederAFull();
 }
 
 void girarALaDerecha() {
@@ -57,8 +65,10 @@ void setup() {
     // Configura las rutas del servidor web
     server.on("/", handleRoot);
     server.on("/AVANZAR", avanzar);
+    server.on("/AVANZAR_A_FULL", avanzarAFull);
     server.on("/PARAR", parar);
     server.on("/RETROCEDER", retroceder);
+    server.on("/RETROCEDER_A_FULL", retrocederAFull);
     server.on("/GIRO_DERECHA", girarALaDerecha);
     server.on("/GIRO_IZQUIERDA", girarALaIzquierda);
     server.on("/GIRO_MOTOR_MEDIO", girarUnTiempo);

@@ -33,6 +33,15 @@ void Motor::avanzar() {
     digitalWrite(motor_derecha_b, LOW);
     digitalWrite(motor_izquierda_a, HIGH);
     digitalWrite(motor_izquierda_b, LOW);
+    analogWrite(enable_derecha, 70);
+    analogWrite(enable_izquierda, 70);
+}
+
+void Motor::avanzarAFull() {
+    digitalWrite(motor_derecha_a, HIGH);
+    digitalWrite(motor_derecha_b, LOW);
+    digitalWrite(motor_izquierda_a, HIGH);
+    digitalWrite(motor_izquierda_b, LOW);
     analogWrite(enable_derecha, 180);
     analogWrite(enable_izquierda, 180);
 }
@@ -42,9 +51,17 @@ void Motor::retroceder() {
     digitalWrite(motor_derecha_b, HIGH);
     digitalWrite(motor_izquierda_a, LOW);
     digitalWrite(motor_izquierda_b, HIGH);
+    analogWrite(enable_derecha, 70);
+    analogWrite(enable_izquierda, 70);
+}
+
+void Motor::retrocederAFull() {
+    digitalWrite(motor_derecha_a, LOW);
+    digitalWrite(motor_derecha_b, HIGH);
+    digitalWrite(motor_izquierda_a, LOW);
+    digitalWrite(motor_izquierda_b, HIGH);
     analogWrite(enable_derecha, 180);
     analogWrite(enable_izquierda, 180);
-
 }
 
 void Motor::girarALaDerecha() {

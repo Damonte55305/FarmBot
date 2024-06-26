@@ -58,6 +58,18 @@ String ContenidoHTML::html() {
     "</div>"
     "</td>"
     "<td class=\"button\" style=\"text-align: center;\">"
+    "<div style=\"display: flex; justify-content: center; align-items: center; height: 100%;\">"
+    "<button style=\"background-color: #FFA500; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; \"ontouchstart=\"sendRequest('/AVANZAR_A_FULL'); this.style.backgroundColor = 'green';\" ontouchend=\" sendRequest('/PARAR'); this.style.backgroundColor = '#FFA500';\">&#9652;</button>"
+    "</td>"
+    "</tr>"
+
+    "<tr>"
+    "<td class=\"button\" style=\"text-align: left;\">"
+    "<div style=\"display: inline-block;\">"
+    "<button style=\"background-color: white; color: black; border: none; box-shadow: none;\"> </button>"
+    "</div>"
+    "</td>"
+    "<td class=\"button\" style=\"text-align: center;\">"
     "<div style=\"display: inline-block;\">"
     "<button style=\"background-color: #FFA500;\" ontouchstart=\"sendRequest('/AVANZAR'); this.style.backgroundColor = 'green';\" ontouchend=\"sendRequest('/PARAR'); this.style.backgroundColor = '#FFA500';\">&#9650;</button>"
     "</div>"
@@ -94,6 +106,19 @@ String ContenidoHTML::html() {
     "</div>"
     "</td>"
     "</tr>"
+
+    "<tr>"
+    "<td class=\"button\" style=\"text-align: left;\">"
+    "<div style=\"display: inline-block;\">"
+    "<button style=\"background-color: white; color: black; border: none; box-shadow: none;\"> </button>"
+    "</div>"
+    "</td>"
+    "<td class=\"button\" style=\"text-align: center;\">"
+    "<div style=\"display: flex; justify-content: center; align-items: center; height: 100%;\">"
+    "<button style=\"background-color: #FFA500; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; \"ontouchstart=\"sendRequest('/RETROCEDER_A_FULL'); this.style.backgroundColor = 'green';\" ontouchend=\" sendRequest('/PARAR'); this.style.backgroundColor = '#FFA500';\">&#9662;</button>"
+    "</td>"
+    "</tr>"
+
     "</table>"
     "</body></html>";
     return html;
