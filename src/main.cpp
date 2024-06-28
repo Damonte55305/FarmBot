@@ -3,11 +3,12 @@
 #include "ContenidoHTML.h"
 #include "Motor.h"
 #include "ConfiguracionWiFi.h"
-
+#include "SensorUltrasonico.h"
 
 Motor *motor = new Motor();
 ConfiguracionWiFi *configuracionWiFi = new ConfiguracionWiFi();
-
+TaskHandle_t Task1;
+SensorUltrasonico *sensor = new SensorUltrasonico();
 
 // Crear un servidor web en el puerto 80
 WebServer server(80);
@@ -56,11 +57,22 @@ void parar() {
 }
 
 
-void setup() {
-    // Inicializa el pin del LED como salida
+//Segundo loop para ejecutar las operaciones de sensado en el Core0.
+void loop2(void *parameter){
+    for(;;){
+        sensor->sensar();
+        delay(100);
+    }
+}
 
+void setup() {
+    Serial.begin(115200);
+    xTaskCreatePinnedToCore(loop2,"Task1",1000,NULL,1,&Task1,0);
+
+    // Inicializa el pin del LED como salida
     motor->inicializar();
     configuracionWiFi->inicializar();
+    sensor->inicializar();
 
     // Configura las rutas del servidor web
     server.on("/", handleRoot);
