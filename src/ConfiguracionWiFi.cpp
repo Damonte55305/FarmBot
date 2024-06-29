@@ -12,12 +12,8 @@ const char *password = "12345678";
 
 void ConfiguracionWiFi::inicializar() {
 
-    Serial.begin(115200);
-
     WiFi.softAP(ssid, password);
     IPAddress IP = WiFi.softAPIP();
-    Serial.print("Dirección IP: ");
-    Serial.println(IP);
 }
 
 ConfiguracionWiFi::ConfiguracionWiFi() = default;
