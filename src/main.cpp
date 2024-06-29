@@ -5,23 +5,33 @@
 #include "ConfiguracionWiFi.h"
 #include "SensorUltrasonico.h"
 
-Motor *motor = new Motor();
-ConfiguracionWiFi *configuracionWiFi = new ConfiguracionWiFi();
+//BROWNOUT DETECT no esta desactivado en esta instancia
+#include <soc/soc.h>
+#include <soc/rtc_cntl_reg.h> 
+
+#define BUZZ 4
+#define LUZ 23
+void buzz(int amount);
+
 TaskHandle_t Task1;
 SensorUltrasonico *sensor = new SensorUltrasonico();
+Motor *motor = new Motor();
+ConfiguracionWiFi *configuracionWiFi = new ConfiguracionWiFi();
 
 // Crear un servidor web en el puerto 80
 WebServer server(80);
 
 // Función para manejar la ruta raíz "/"
-void handleRoot() {
+void handleRoot()
+{
     ContenidoHTML html = *new ContenidoHTML();
 
     server.send(200, "text/html", html.obtenerContenido());
 }
 
 // Función para manejar la ruta "/LED_ON"
-void avanzar() {
+void avanzar()
+{
     motor->avanzar();
 }
 
@@ -29,7 +39,8 @@ void avanzarAFull() {
     motor->avanzarAFull();
 }
 
-void retroceder() {
+void retroceder()
+{
     motor->retroceder();
 }
 
@@ -37,27 +48,33 @@ void retrocederAFull() {
     motor->retrocederAFull();
 }
 
-void girarALaDerecha() {
+void girarALaDerecha()
+{
     motor->girarALaDerecha();
-
 }
 
-void girarALaIzquierda() {
+void girarALaIzquierda()
+{
     motor->girarALaIzquierda();
-
 }
 
-void girarUnTiempo() {
+void girarUnTiempo()
+{
     motor->girarUnTiempo();
 }
 
-//función para apagar el motor
-void parar() {
+// función para apagar el motor
+void parar()
+{
     motor->parar();
 }
 
+void luces(){
+    digitalWrite(LUZ, HIGH);
+    delay(100);
+    digitalWrite(LUZ, LOW);
+}
 
-//Segundo loop para ejecutar las operaciones de sensado en el Core0.
 void loop2(void *parameter){
     for(;;){
         sensor->sensar();
@@ -65,14 +82,52 @@ void loop2(void *parameter){
     }
 }
 
-void setup() {
-    Serial.begin(115200);
-    xTaskCreatePinnedToCore(loop2,"Task1",1000,NULL,1,&Task1,0);
+void setup()
+{
+    xTaskCreatePinnedToCore(loop2,"Task1",8000,NULL,1,&Task1,0);
+    pinMode(BUZZ, OUTPUT);
+    pinMode(LUZ, OUTPUT);
 
-    // Inicializa el pin del LED como salida
+    Serial.begin(115200);
+    Serial.println("BEGIN");
+
     motor->inicializar();
+    parar();
+
     configuracionWiFi->inicializar();
     sensor->inicializar();
+    
+    delay(100);
+
+    buzz(10);
+    
+    avanzar();
+    digitalWrite(LUZ, HIGH);
+    delay(100);
+    digitalWrite(LUZ, LOW);
+    parar();
+    delay(500);
+
+    retroceder();
+    digitalWrite(LUZ, HIGH);
+    delay(100);
+    digitalWrite(LUZ, LOW);
+    parar();
+    delay(500);
+
+    girarALaDerecha();
+    delay(100);
+    parar();
+    delay(500);
+
+    girarALaIzquierda();
+    delay(100);
+    parar();
+    delay(500);
+
+    buzz(5);
+    delay(10);
+
 
     // Configura las rutas del servidor web
     server.on("/", handleRoot);
@@ -84,16 +139,25 @@ void setup() {
     server.on("/GIRO_DERECHA", girarALaDerecha);
     server.on("/GIRO_IZQUIERDA", girarALaIzquierda);
     server.on("/GIRO_MOTOR_MEDIO", girarUnTiempo);
+    server.on("/FLASH", luces);
 
     // Inicia el servidor web
     server.begin();
-    Serial.println("Servidor HTTP iniciado");
 }
 
-void loop() {
+void loop()
+{
     // Maneja las solicitudes entrantes
     server.handleClient();
+
+
 }
 
-
-
+void buzz(int amount){
+    for(int i = 0; i < amount; i++){
+        digitalWrite(BUZZ, HIGH);
+        delay(50);
+        digitalWrite(BUZZ, LOW);
+        delay(50);
+    }
+}
