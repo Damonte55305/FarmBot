@@ -6,91 +6,93 @@
 #include <Arduino.h>
 
 
-#define motor_derecha_a 12
-#define motor_derecha_b 14
-#define enable_derecha 13
-#define motor_izquierda_a 26
-#define motor_izquierda_b 27
-#define enable_izquierda 25
-#define motor_medio_a 32
-#define motor_medio_b 33
+#define DERECHA_A 12
+#define DERECHA_B 14
+#define DERECHA_PWM 13
+#define IZQUIERDA_A 26
+#define IZQUIERDA_B 27
+#define IZQUIERDA_PWM 25
+#define MEDIO_A 32
+#define MEDIO_B 33
 
 Motor::Motor() = default;
 
 void Motor::inicializar() {
-    pinMode(motor_derecha_a, OUTPUT);
-    pinMode(motor_derecha_b, OUTPUT);
-    pinMode(enable_derecha, OUTPUT);
-    pinMode(motor_izquierda_a, OUTPUT);
-    pinMode(motor_izquierda_b, OUTPUT);
-    pinMode(enable_izquierda, OUTPUT);
-    pinMode(motor_medio_a, OUTPUT);
-    pinMode(motor_medio_b, OUTPUT);
+    pinMode(DERECHA_A, OUTPUT);
+    pinMode(DERECHA_B, OUTPUT);
+    pinMode(DERECHA_PWM, OUTPUT);
+    pinMode(IZQUIERDA_A, OUTPUT);
+    pinMode(IZQUIERDA_B, OUTPUT);
+    pinMode(IZQUIERDA_PWM, OUTPUT);
+    pinMode(MEDIO_A, OUTPUT);
+    pinMode(MEDIO_B, OUTPUT);
 }
 
 void Motor::avanzar() {
-    digitalWrite(motor_derecha_a, HIGH);
-    digitalWrite(motor_derecha_b, LOW);
-    digitalWrite(motor_izquierda_a, HIGH);
-    digitalWrite(motor_izquierda_b, LOW);
-    analogWrite(enable_derecha, 70);
-    analogWrite(enable_izquierda, 70);
+    digitalWrite(DERECHA_A, LOW);
+    digitalWrite(DERECHA_B, HIGH);
+    digitalWrite(IZQUIERDA_A, LOW);
+    digitalWrite(IZQUIERDA_B, HIGH);
+    analogWrite(DERECHA_PWM, 170);
+    analogWrite(IZQUIERDA_PWM, 170);
 }
 
 void Motor::avanzarAFull() {
-    digitalWrite(motor_derecha_a, HIGH);
-    digitalWrite(motor_derecha_b, LOW);
-    digitalWrite(motor_izquierda_a, HIGH);
-    digitalWrite(motor_izquierda_b, LOW);
-    analogWrite(enable_derecha, 180);
-    analogWrite(enable_izquierda, 180);
+    digitalWrite(DERECHA_A, LOW);
+    digitalWrite(DERECHA_B, HIGH);
+    digitalWrite(IZQUIERDA_A, LOW);
+    digitalWrite(IZQUIERDA_B, HIGH);
+    analogWrite(DERECHA_PWM, 255);
+    analogWrite(IZQUIERDA_PWM, 255);
 }
 
 void Motor::retroceder() {
-    digitalWrite(motor_derecha_a, LOW);
-    digitalWrite(motor_derecha_b, HIGH);
-    digitalWrite(motor_izquierda_a, LOW);
-    digitalWrite(motor_izquierda_b, HIGH);
-    analogWrite(enable_derecha, 70);
-    analogWrite(enable_izquierda, 70);
+    digitalWrite(DERECHA_A, HIGH);
+    digitalWrite(DERECHA_B, LOW);
+    digitalWrite(IZQUIERDA_A, HIGH);
+    digitalWrite(IZQUIERDA_B, LOW);
+    analogWrite(DERECHA_PWM, 170);
+    analogWrite(IZQUIERDA_PWM, 170);
 }
 
 void Motor::retrocederAFull() {
-    digitalWrite(motor_derecha_a, LOW);
-    digitalWrite(motor_derecha_b, HIGH);
-    digitalWrite(motor_izquierda_a, LOW);
-    digitalWrite(motor_izquierda_b, HIGH);
-    analogWrite(enable_derecha, 180);
-    analogWrite(enable_izquierda, 180);
+    digitalWrite(DERECHA_A, HIGH);
+    digitalWrite(DERECHA_B, LOW);
+    digitalWrite(IZQUIERDA_A, HIGH);
+    digitalWrite(IZQUIERDA_B, LOW);
+    analogWrite(DERECHA_PWM, 255);
+    analogWrite(IZQUIERDA_PWM, 255);
 }
 
 void Motor::girarALaDerecha() {
-    digitalWrite(motor_derecha_a, LOW);
-    digitalWrite(motor_derecha_b, HIGH);
-    digitalWrite(motor_izquierda_a, HIGH);
-    digitalWrite(motor_izquierda_b, LOW);
-    analogWrite(enable_derecha, 255);
-    analogWrite(enable_izquierda, 255);
+    digitalWrite(DERECHA_A, LOW);
+    digitalWrite(DERECHA_B, HIGH);
+    digitalWrite(IZQUIERDA_A, HIGH);
+    digitalWrite(IZQUIERDA_B, LOW);
+    analogWrite(DERECHA_PWM, 170);
+    analogWrite(IZQUIERDA_PWM, 170);
 }
 
 void Motor::girarALaIzquierda() {
-    digitalWrite(motor_derecha_a, HIGH);
-    digitalWrite(motor_derecha_b, LOW);
-    digitalWrite(motor_izquierda_a, LOW);
-    digitalWrite(motor_izquierda_b, HIGH);
-    analogWrite(enable_derecha, 255);
-    analogWrite(enable_izquierda, 255);
+    digitalWrite(DERECHA_A, HIGH);
+    digitalWrite(DERECHA_B, LOW);
+    digitalWrite(IZQUIERDA_A, LOW);
+    digitalWrite(IZQUIERDA_B, HIGH);
+    analogWrite(DERECHA_PWM, 170);
+    analogWrite(IZQUIERDA_PWM, 170);
 }
 
 void Motor::parar() {
-    digitalWrite(motor_derecha_a, LOW);
-    digitalWrite(motor_derecha_b, LOW);
-    digitalWrite(motor_izquierda_a, LOW);
-    digitalWrite(motor_izquierda_b, LOW);
+    digitalWrite(DERECHA_A, LOW);
+    digitalWrite(DERECHA_B, LOW);
+    digitalWrite(IZQUIERDA_A, LOW);
+    digitalWrite(IZQUIERDA_B, LOW);
+    digitalWrite(MEDIO_A, LOW);
+    digitalWrite(MEDIO_B, LOW);
 }
 
 
 void Motor::girarUnTiempo() {
-    digitalWrite(motor_medio_a, HIGH);
-    digitalWrite(motor_medio_b, LOW);
+    digitalWrite(MEDIO_A, HIGH);
+    digitalWrite(MEDIO_B, LOW);
 }

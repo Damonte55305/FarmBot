@@ -5,9 +5,9 @@
 #include "SensorUltrasonico.h"
 #include <Arduino.h>
 
-#define BuzzerPin 15
-#define echoPin 5
-#define trigPin 4
+#define BUZZER 4
+#define ECHO 34
+#define TRIG 5
 
 long duration, distance;
 
@@ -15,19 +15,19 @@ SensorUltrasonico::SensorUltrasonico() = default;
 
 void SensorUltrasonico::inicializar() {
     Serial.begin(115200);
-    pinMode(BuzzerPin, OUTPUT);
-    pinMode(trigPin, OUTPUT);
-    pinMode(echoPin, INPUT);
+    pinMode(BUZZER, OUTPUT);
+    pinMode(TRIG, OUTPUT);
+    pinMode(ECHO, INPUT);
 }
 
 void SensorUltrasonico::sensar() {
-    digitalWrite(trigPin, LOW);
+    digitalWrite(TRIG, LOW);
     delayMicroseconds(2);
-    digitalWrite(trigPin, HIGH);
+    digitalWrite(TRIG, HIGH);
     delayMicroseconds(10);
-    digitalWrite(trigPin, LOW);
+    digitalWrite(TRIG, LOW);
 
-    duration = pulseIn(echoPin, HIGH);
+    duration = pulseIn(ECHO, HIGH);
     distance = duration / 58.2;
     String distancia = String(distance);
 
@@ -36,11 +36,19 @@ void SensorUltrasonico::sensar() {
 }
 
 void SensorUltrasonico::verificarDistancia(long distancia){
-    if(distancia<30 && distancia>=15){
-        tone(BuzzerPin, 500, 100);
+    if(distancia <= 10){
+        tone(BUZZER, 200);
+        delay(50);
+        noTone(BUZZER);
+    }else if(distancia > 10 && distancia <= 20){
+        tone(BUZZER, 100);
+        delay(150);
+        noTone(BUZZER);
     }
-    if(distancia<15) {
-        tone(BuzzerPin, 500, 500);
+    else if(distancia > 20 && distancia <= 30){
+        tone(BUZZER, 50);
+        delay(300);
+        noTone(BUZZER);
     }
     delay(500);
 }
