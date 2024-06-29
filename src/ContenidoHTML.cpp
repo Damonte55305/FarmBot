@@ -44,12 +44,18 @@ String ContenidoHTML::html() {
     "</script>"
     "</head>"
 
-    "<img src=\"http://192.168.4.2/240x240.mjpeg\">"
-
     "<body>"
     "<h1 style=\"color: #14a741 ;text-align:center;\"> ---FarmBot---</h1>"
 
     "<table id=\"mainTable\" style=\"width:400px;margin:auto;table-layout:fixed\" CELLSPACING=10>"
+
+    "<tr>"
+    "<td class=\"button\" style=\"text-align: center;\">"
+    "<div style=\"display: inline-block;\">"
+    "<img src=\"http://192.168.4.186/cam.mjpeg\">"
+    "</div>"
+    "</td>"
+    "</tr>"
 
     "<tr>"
     "<td class=\"button\" style=\"text-align: left;\">"
@@ -84,7 +90,7 @@ String ContenidoHTML::html() {
     "</td>"
     "<td class=\"button\" style=\"text-align: center;\">"
     "<div style=\"display: inline-block;\">"
-    "<button style=\"background-color: #FFA500;\" ontouchstart=\"sendRequest('/GIRO_MOTOR_MEDIO'); this.style.backgroundColor = 'green'; \" ontouchend=\"this.style.backgroundColor = '#FFA500'\">&#9762;</button>"
+    "<button style=\"background-color: #FFA500;\" ontouchstart=\"sendRequest('/GIRO_MOTOR_MEDIO'); this.style.backgroundColor = 'green'; \" ontouchend=\"sendRequest('/PARAR'); this.style.backgroundColor = '#FFA500'\">&#9762;</button>"
     "</div>"
     "</td>"
     "<td class=\"button\" style=\"text-align: center;\">"
@@ -119,8 +125,20 @@ String ContenidoHTML::html() {
     "</td>"
     "</tr>"
 
+    "<tr>"
+    "<td class=\"button\" style=\"text-align: left;\">"
+    "<div style=\"display: inline-block;\">"
+    "<button style=\"background-color: white; color: black; border: none; box-shadow: none;\"> </button>"
+    "</div>"
+    "</td>"
+    "<td class=\"button\" style=\"text-align: center;\">"
+    "<div style=\"display: inline-block;\">"
+    "<button style=\"background-color: #FFA500;\" ontouchstart=\"sendRequest('/FLASH'); this.style.backgroundColor = 'green';\" ontouchend=\"sendRequest('/'); this.style.backgroundColor = '#FFA500';\">LUCES</button>"
+    "</div>"
+    "</td>"
+    "</tr>"
+
     "</table>"
     "</body></html>";
     return html;
 }
-
