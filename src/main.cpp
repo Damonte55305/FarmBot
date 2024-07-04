@@ -6,6 +6,8 @@
 #include "SensorUltrasonico.h"
 #include "pitches.h"
 #include "Musica.h"
+#include "Dance.h"
+#include "moves.h"
 
 //BROWNOUT DETECT no esta desactivado en esta instancia
 #include <soc/soc.h>
@@ -20,20 +22,92 @@ SensorUltrasonico *sensor = new SensorUltrasonico();
 Motor *motor = new Motor();
 ConfiguracionWiFi *configuracionWiFi = new ConfiguracionWiFi();
 
+int secuencia[] = {
+    IZQUIERDA, DERECHA, DERECHA, IZQUIERDA,
+    IZQUIERDA, IZQUIERDA, IZQUIERDA, 
+    DERECHA,
+    DERECHA, DERECHA, DERECHA,
+    IZQUIERDA,
+    ATRAS, IZQUIERDA, DERECHA, DERECHA, IZQUIERDA, ADELANTE, 
+    ATRAS, DERECHA, IZQUIERDA, IZQUIERDA, DERECHA, ADELANTE,
+    IZQUIERDA, DERECHA, ADELANTE, ATRAS,
+    DERECHA, IZQUIERDA, ATRAS, ADELANTE,
+    DERECHA,
+    IZQUIERDA, DERECHA, DERECHA, IZQUIERDA,
+    IZQUIERDA, DERECHA, DERECHA, IZQUIERDA
+};
+
+int tiempos[] = {
+    100, 100, 100, 100,
+    50, 50, 100,
+    200,
+    50, 50, 100,
+    200,
+    100, 50, 50, 50, 50, 100,
+    100, 50, 50, 50, 50, 100,
+    100, 100, 50, 50,
+    100, 100, 50, 50,
+    1000,
+    50, 50, 50, 50,
+    50, 50, 50, 50
+};
+
+int sizeD = sizeof(tiempos) / sizeof(int);
+
 int melody[] = {
-  NOTE_C4, NOTE_E4, NOTE_FS4, REST, NOTE_A4,
-  NOTE_G4, NOTE_E4, NOTE_C4, NOTE_A3,
-  NOTE_FS3, NOTE_FS3, NOTE_FS3, NOTE_G3, REST,
-  NOTE_FS3, NOTE_FS3, NOTE_FS3, NOTE_G3, NOTE_AS3,
-  NOTE_B3, REST
+  NOTE_A4, REST, NOTE_B4, REST, NOTE_C5, REST, NOTE_A4, REST,
+  NOTE_D5, REST, NOTE_E5, REST, NOTE_D5, REST,
+
+  NOTE_G4, NOTE_A4, NOTE_C5, NOTE_A4, NOTE_E5, NOTE_E5, REST,
+  NOTE_D5, REST,
+
+  NOTE_G4, NOTE_A4, NOTE_C5, NOTE_A4, NOTE_D5, NOTE_D5, REST,
+  NOTE_C5, REST, NOTE_B4, NOTE_A4, REST,
+
+  NOTE_G4, NOTE_A4, NOTE_C5, NOTE_A4, NOTE_C5, NOTE_D5, REST,
+  NOTE_B4, NOTE_A4, NOTE_G4, REST, NOTE_G4, REST, NOTE_D5, REST, NOTE_C5, REST,
+
+  NOTE_G4, NOTE_A4, NOTE_C5, NOTE_A4, NOTE_E5, NOTE_E5, REST,
+  NOTE_D5, REST,
+
+  NOTE_G4, NOTE_A4, NOTE_C5, NOTE_A4, NOTE_G5, NOTE_B4, REST,
+  NOTE_C5, REST, NOTE_B4, NOTE_A4, REST,
+
+  NOTE_G4, NOTE_A4, NOTE_C5, NOTE_A4, NOTE_C5, NOTE_D5, REST,
+  NOTE_B4, NOTE_A4, NOTE_G4, REST, NOTE_G4, REST, NOTE_D5, REST, NOTE_C5, REST,
+
+  NOTE_C5, REST, NOTE_D5, REST, NOTE_G4, REST, NOTE_D5, REST, NOTE_E5, REST,
+  NOTE_G5, NOTE_F5, NOTE_E5, REST,
+
+  NOTE_C5, REST, NOTE_D5, REST, NOTE_G4, REST
 };
 
 int durations[] = {
-  2, 4, 4, 32, 8,
-  2, 4, 4, 8,
-  8, 8, 8, 4, 2,
-  8, 8, 8, 4, 2,
-  2, 2
+  8, 8, 8, 8, 8, 8, 8, 4,
+  8, 8, 8, 8, 2, 2,
+
+  8, 8, 8, 8, 2, 8, 8,
+  2, 8,
+
+  8, 8, 8, 8, 2, 8, 8,
+  4, 8, 8, 8, 8,
+
+  8, 8, 8, 8, 2, 8, 8,
+  2, 8, 4, 8, 8, 8, 8, 8, 1, 4,
+
+  8, 8, 8, 8, 2, 8, 8,
+  2, 8,
+
+  8, 8, 8, 8, 2, 8, 8,
+  2, 8, 8, 8, 8,
+
+  8, 8, 8, 8, 2, 8, 8,
+  4, 8, 3, 8, 8, 8, 8, 8, 1, 4,
+
+  2, 6, 2, 6, 4, 4, 2, 6, 2, 3,
+  8, 8, 8, 8,
+
+  2, 6, 2, 6, 2, 1
 };
 Musica *musica = new Musica(melody, durations, sizeof(durations) / sizeof(int));
 
@@ -96,15 +170,16 @@ void luces(){
 
 void loop2(void *parameter){
     for(;;){
-        sensor->sensar();
-        delay(100);
+        musica->reproducir();
+        vTaskDelete(&Task1);
     }
 }
 
 void setup()
 {
-    musica->reproducir();
     xTaskCreatePinnedToCore(loop2,"Task1",8000,NULL,1,&Task1,0);
+    
+
     pinMode(BUZZ, OUTPUT);
     pinMode(LUZ, OUTPUT);
 
@@ -112,6 +187,25 @@ void setup()
     Serial.println("BEGIN");
 
     motor->inicializar();
+
+    for (int i = 0; i < sizeD; i++) {
+        int duration = tiempos[i] * 4;
+        int movimiento = secuencia[i];
+        if(movimiento == 0){
+            avanzar();
+        }else if(movimiento == 1){
+            girarALaDerecha();
+        }else if(movimiento == 2){
+            retroceder();
+        }else if(movimiento == 3){
+            girarALaIzquierda();
+        }
+        Serial.println("Moved");
+        delay(duration);
+        parar();
+        delay(200);
+    }
+
     parar();
 
     configuracionWiFi->inicializar();
