@@ -20,6 +20,10 @@ void SensorUltrasonico::inicializar() {
     pinMode(ECHO, INPUT);
 }
 
+/**
+ * @brief Sensa la distancia, es decir, calcula la distancia desde el sensor 
+ * ultrasonico hasta el obstaculo, luego verifica y maneja el comportamiento del Buzzer
+ */
 void SensorUltrasonico::sensar() {
     digitalWrite(TRIG, LOW);
     delayMicroseconds(2);
@@ -35,6 +39,10 @@ void SensorUltrasonico::sensar() {
     verificarDistancia(distance);
 }
 
+/**
+ * @brief Controla el comportamiento del Buzzer dependiendo de la distancia sensada
+ * @param distancia Distancia sensada
+ */
 void SensorUltrasonico::verificarDistancia(long distancia){
     if(distancia <= 10){
         tone(BUZZER, 200);

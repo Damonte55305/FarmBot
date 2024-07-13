@@ -8,6 +8,9 @@ String ContenidoHTML::obtenerContenido() {
     return html();
 }
 
+/**
+ * @var Variable que guarda la aplicacion Web del FarmBot
+ */
 String ContenidoHTML::html() {
     String html = "<!DOCTYPE html><html>"
     "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"

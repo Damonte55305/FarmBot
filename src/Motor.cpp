@@ -1,10 +1,8 @@
 //
 // Created by walal on 20/6/2024.
 //
-
 #include "Motor.h"
 #include <Arduino.h>
-
 
 #define DERECHA_A 12
 #define DERECHA_B 14
@@ -91,8 +89,7 @@ void Motor::parar() {
     digitalWrite(MEDIO_B, LOW);
 }
 
-
-void Motor::girarUnTiempo() {
+void Motor::girarCortadora() {
     digitalWrite(MEDIO_A, HIGH);
     digitalWrite(MEDIO_B, LOW);
 }

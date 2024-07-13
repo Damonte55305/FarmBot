@@ -5,6 +5,11 @@
 #ifndef FARMBOT_MOTOR_H
 #define FARMBOT_MOTOR_H
 
+/**
+ * @brief Clase que se encarga de controlar los cuatro motores
+ * que corresponden a las ruedas y a un motor correspondiente a
+ * la cortadora de maleza
+ */
 class Motor {
 public:
     Motor();
@@ -15,7 +20,7 @@ public:
     void retrocederAFull();
     void girarALaDerecha();
     void girarALaIzquierda();
-    void girarUnTiempo();
+    void girarCortadora();
     void parar();
 };
 

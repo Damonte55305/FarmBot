@@ -5,6 +5,9 @@
 #ifndef FARMBOT_CONTENIDOHTML_H
 #define FARMBOT_CONTENIDOHTML_H
 
+/**
+ * @brief Clase que almacena la aplicación web para controlar al FarmBot
+ */
 class ContenidoHTML {
 public:
     ContenidoHTML();

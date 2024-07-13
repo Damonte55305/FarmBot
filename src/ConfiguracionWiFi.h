@@ -11,7 +11,4 @@ public:
     void inicializar();
 };
 
-
-
-
 #endif //FARMBOT_CONFIGURACIONWIFI_H
