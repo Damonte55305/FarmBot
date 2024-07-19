@@ -12,8 +12,9 @@ class SensorUltrasonico {
 public:
     SensorUltrasonico();
     void inicializar();
-    void sensar();
-    void verificarDistancia(long distancia);
+    bool verificarDistancia(long distancia);
+    bool sensar();
+
 };
 
 

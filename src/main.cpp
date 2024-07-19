@@ -104,10 +104,23 @@ void loop2(void *parameter)
 {
     for (;;)
     {
-        sensor->sensar();
+        bool muyCerca  = sensor->sensar();
+        if (muyCerca){
+            digitalWrite(BUZZ, HIGH);
+            digitalWrite(LUZ, HIGH);
+            motor->parar();
+            motor->retroceder();
+            delay(500);
+            motor->girarALaIzquierda();
+            delay(1450);
+            motor->parar();
+            digitalWrite(BUZZ, LOW);
+        }
+        digitalWrite(LUZ, LOW);
         delay(100);
     }
 }
+
 
 void setup()
 {
